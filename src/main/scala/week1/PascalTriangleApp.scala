@@ -1,3 +1,5 @@
+package week1
+
 
 object PascalTriangleApp {
   def main(args: Array[String]): Unit = {

@@ -1,3 +1,5 @@
+package week1
+
 object CountingChangeApp {
   def main(args: Array[String]): Unit = {
     def countChange(money: Int, coins: List[Int]): Int = {

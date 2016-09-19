@@ -1,3 +1,5 @@
+package week1
+
 object ParenthesesBalancingApp {
   def main(args: Array[String]): Unit = {
     def parensValue(char: Char): Int = char match {
