@@ -17,12 +17,6 @@ class CurryingFactorialSuite extends FunSuite {
     assert(factorial(5) === 120)
   }
 
-  def generalizedOp(f: Int => Int, op: (Int, Int) => Int)(a: Int, b: Int): Int = {
-    if (a > b) 1
-    else op(f(a), generalizedOp(f, op)(a+1,b))
-  }
-
-  def factorial2(x: Int) = generalizedOp(y => y, (u,v) => u * v)(1,x)
   test("generalized operation computes generic operation of the application of the f to parameters") {
     assert(generalizedOp(x => x * x, (u,v) => u * v)(3,4) === 144)
   }
