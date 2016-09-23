@@ -1,8 +1,9 @@
-package week3
+package week3.exercises
 
 import org.junit.runner.RunWith
 import org.scalatest.FunSuite
 import org.scalatest.junit.JUnitRunner
+import week3.Nil
 
 @RunWith(classOf[JUnitRunner])
 class ConsListSuite extends FunSuite {

@@ -1,5 +1,4 @@
-package week3
-
+package week3.exercises
 
 abstract class IntSet {
   def incl(x: Int): IntSet
@@ -7,10 +6,10 @@ abstract class IntSet {
   def union(other: IntSet): IntSet
 }
 
-class NonEmpty(elem: Int, left: IntSet, right: IntSet) extends IntSet {
+class NonEmptyIntSet(elem: Int, left: IntSet, right: IntSet) extends IntSet {
   override def incl(x: Int): IntSet =
-    if (x < elem) new NonEmpty(elem, left incl x, right)
-    else if (x > elem) new NonEmpty(elem, left, right incl x)
+    if (x < elem) new NonEmptyIntSet(elem, left incl x, right)
+    else if (x > elem) new NonEmptyIntSet(elem, left, right incl x)
     else this
 
   override def contains(x: Int): Boolean =
@@ -22,8 +21,8 @@ class NonEmpty(elem: Int, left: IntSet, right: IntSet) extends IntSet {
     ((left union right) union other) incl elem
 }
 
-object EmptySet extends IntSet {
-  override def incl(x: Int): IntSet = new NonEmpty(x, EmptySet, EmptySet)
+object EmptyIntSet extends IntSet {
+  override def incl(x: Int): IntSet = new NonEmptyIntSet(x, EmptyIntSet, EmptyIntSet)
 
   override def contains(x: Int): Boolean = false
 
