@@ -78,7 +78,7 @@ abstract class TweetSet {
     * Question: Should we implment this method here, or should it remain abstract
     * and be implemented in the subclasses?
     */
-  def descendingByRetweet: TweetList = ???
+  def descendingByRetweet: TweetList
 
   /**
     * The following methods are already implemented
@@ -128,6 +128,8 @@ class Empty extends TweetSet {
   override def mostRetweeted: Tweet = throw new NoSuchElementException
 
   override def mostRetweetedIter(most: Tweet): Tweet = most
+
+  override def descendingByRetweet: TweetList = Nil
 }
 
 class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
@@ -174,6 +176,11 @@ class NonEmpty(elem: Tweet, left: TweetSet, right: TweetSet) extends TweetSet {
   }
 
   override def mostRetweeted: Tweet = right.mostRetweetedIter(left.mostRetweetedIter(elem))
+
+  override def descendingByRetweet: TweetList = {
+    val mostRetweetedTweet = mostRetweeted
+    new Cons(mostRetweetedTweet, remove(mostRetweetedTweet).descendingByRetweet)
+  }
 }
 
 trait TweetList {
@@ -202,14 +209,14 @@ object GoogleVsApple {
   val google = List("android", "Android", "galaxy", "Galaxy", "nexus", "Nexus")
   val apple = List("ios", "iOS", "iphone", "iPhone", "ipad", "iPad")
 
-  lazy val googleTweets: TweetSet = ???
-  lazy val appleTweets: TweetSet = ???
+  lazy val googleTweets: TweetSet = TweetReader.allTweets.filter(p => google.exists(q => p.text.contains(q)))
+  lazy val appleTweets: TweetSet = TweetReader.allTweets.filter(p => apple.exists(q => p.text.contains(q)))
 
   /**
     * A list of all tweets mentioning a keyword from either apple or google,
     * sorted by the number of retweets.
     */
-  lazy val trending: TweetList = ???
+  lazy val trending: TweetList = googleTweets.union(appleTweets).descendingByRetweet
 }
 
 object Main extends App {

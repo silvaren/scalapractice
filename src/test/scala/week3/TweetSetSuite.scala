@@ -63,7 +63,7 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
-  ignore("descending: set5") {
+  test("descending: set5") {
     new TestSets {
       val trends = set5.descendingByRetweet
       assert(!trends.isEmpty)
@@ -79,4 +79,11 @@ class TweetSetSuite extends FunSuite {
     }
   }
 
+  test("googlevsandroid") {
+    new TestSets {
+      GoogleVsApple.googleTweets.foreach(t => assert(GoogleVsApple.google.exists(p => t.text.contains(p))))
+      GoogleVsApple.appleTweets.foreach(t => assert(GoogleVsApple.apple.exists(p => t.text.contains(p))))
+    }
   }
+
+}
