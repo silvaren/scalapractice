@@ -91,7 +91,7 @@ object Huffman {
   /**
     * Checks whether the list `trees` contains only one single code tree.
     */
-  def singleton(trees: List[CodeTree]): Boolean = ???
+  def singleton(trees: List[CodeTree]): Boolean = trees.size == 1
 
   /**
     * The parameter `trees` of this function is a list of code trees ordered
@@ -131,7 +131,10 @@ object Huffman {
     *    the example invocation. Also define the return type of the `until` function.
     *  - try to find sensible parameter names for `xxx`, `yyy` and `zzz`.
     */
-  //    def until(xxx: ???, yyy: ???)(zzz: ???): ??? = ???
+  def until(condition: List[CodeTree] => Boolean, action: List[CodeTree] => List[CodeTree])
+           (trees: List[CodeTree]): List[CodeTree] =
+  if (condition(trees)) trees
+  else until(condition, action)(action(trees))
 
   /**
     * This function creates a code tree which is optimal to encode the text `chars`.
