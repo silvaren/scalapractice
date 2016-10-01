@@ -47,6 +47,12 @@ class HuffmanSuite extends FunSuite {
     assert(times(input).sortBy(pair => pair._2) === List(('b', 1), ('a', 2)))
   }
 
+  test("codetree from a list of chars") {
+    new TestTrees {
+      assert(createCodeTree(List('a','b','a','b','b')) === t1)
+      assert(createCodeTree(List('a','d','b','d','a','d','b','d','b')) === t2)
+    }
+  }
 
   test("decode and encode a very short text should be identity") {
     new TestTrees {
