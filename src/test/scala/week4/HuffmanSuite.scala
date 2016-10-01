@@ -7,10 +7,10 @@ import week4.Huffman._
 
 @RunWith(classOf[JUnitRunner])
 class HuffmanSuite extends FunSuite {
-	trait TestTrees {
-		val t1 = Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5)
-		val t2 = Fork(Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5), Leaf('d',4), List('a','b','d'), 9)
-	}
+  trait TestTrees {
+    val t1 = Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5)
+    val t2 = Fork(Fork(Leaf('a',2), Leaf('b',3), List('a','b'), 5), Leaf('d',4), List('a','b','d'), 9)
+  }
 
 
   test("weight of a larger tree") {
@@ -40,6 +40,11 @@ class HuffmanSuite extends FunSuite {
   test("combine of some leaf list") {
     val leaflist = List(Leaf('e', 1), Leaf('t', 2), Leaf('x', 4))
     assert(combine(leaflist) === List(Fork(Leaf('e',1),Leaf('t',2),List('e', 't'),3), Leaf('x',4)))
+  }
+
+  test("times should return ocurrence count") {
+    val input = List('a', 'b', 'a')
+    assert(times(input).sortBy(pair => pair._2) === List(('b', 1), ('a', 2)))
   }
 
 
