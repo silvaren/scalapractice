@@ -156,17 +156,18 @@ object Huffman {
     * the resulting list of characters.
     */
   def decode(tree: CodeTree, bits: List[Bit]): List[Char] = {
-    def helper(partialTree: CodeTree, bits: List[Bit]): List[Char] = {
+    @tailrec
+    def traverse(partialTree: CodeTree, bits: List[Bit], acc: List[Char]): List[Char] = {
       partialTree match {
         case leaf: Leaf =>
-          if (bits.isEmpty) List(leaf.char)
-          else List(leaf.char) ::: helper(tree, bits)
+          if (bits.isEmpty) acc ::: List(leaf.char)
+          else traverse(tree, bits, acc ::: List(leaf.char))
         case fork: Fork =>
-          if (bits.head == 0) helper(fork.left, bits.tail)
-          else helper(fork.right, bits.tail)
+          if (bits.head == 0) traverse(fork.left, bits.tail, acc)
+          else traverse(fork.right, bits.tail, acc)
       }
     }
-    helper(tree, bits)
+    traverse(tree, bits, List.empty)
   }
 
 
