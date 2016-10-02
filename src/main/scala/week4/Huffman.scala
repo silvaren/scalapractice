@@ -1,5 +1,7 @@
 package week4
 
+import scala.annotation.tailrec
+
 /**
   * Assignment 4: Huffman coding
   *
@@ -153,7 +155,20 @@ object Huffman {
     * This function decodes the bit sequence `bits` using the code tree `tree` and returns
     * the resulting list of characters.
     */
-  def decode(tree: CodeTree, bits: List[Bit]): List[Char] = ???
+  def decode(tree: CodeTree, bits: List[Bit]): List[Char] = {
+    def helper(partialTree: CodeTree, bits: List[Bit]): List[Char] = {
+      partialTree match {
+        case leaf: Leaf =>
+          if (bits.isEmpty) List(leaf.char)
+          else List(leaf.char) ::: helper(tree, bits)
+        case fork: Fork =>
+          if (bits.head == 0) helper(fork.left, bits.tail)
+          else helper(fork.right, bits.tail)
+      }
+    }
+    helper(tree, bits)
+  }
+
 
   /**
     * A Huffman coding tree for the French language.
