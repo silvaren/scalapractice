@@ -72,4 +72,11 @@ class HuffmanSuite extends FunSuite {
     assert(codeBits(table)('b') === List(1))
   }
 
+  test("convert should convert codetree to codetable") {
+    new TestTrees {
+      assert(convert(t1) === List(('a',List(0)),('b',List(1))))
+      assert(convert(t2) === List(('a',List(0,0)),('b',List(0,1)),('d',List(1))))
+    }
+  }
+
 }
