@@ -66,4 +66,10 @@ class HuffmanSuite extends FunSuite {
     }
   }
 
+  test("codebits should return bits for a char") {
+    val table = List(('a',List(0)),('b',List(1)))
+    assert(codeBits(table)('a') === List(0))
+    assert(codeBits(table)('b') === List(1))
+  }
+
 }
