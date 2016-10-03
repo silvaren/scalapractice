@@ -79,4 +79,11 @@ class HuffmanSuite extends FunSuite {
     }
   }
 
+  test("quickencode should encode a tree with codetable") {
+    new TestTrees {
+      assert(quickEncode(t1)(List('b','a','b','b')) === List(1,0,1,1))
+      assert(quickEncode(t2)(List('b','a','b','b','d')) === List(0,1,0,0,0,1,0,1,1))
+    }
+  }
+
 }
