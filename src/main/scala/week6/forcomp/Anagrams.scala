@@ -122,7 +122,7 @@ object Anagrams {
           if (xfreq - yfreq == 0) map - ychar
           else map.updated(ychar, List((ychar, xfreq - yfreq)))
       }
-    }).values.reduce((x,y) => x ::: y).sorted
+    }).values.foldRight(List[(Char,Int)]())((x,y) => x ::: y).sorted
   }
 
   /** Returns a list of all anagram sentences of the given sentence.
