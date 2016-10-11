@@ -1,5 +1,7 @@
 package week6.forcomp
 
+import com.sun.corba.se.impl.orbutil.ObjectStreamClassUtil_1_3
+
 object Anagrams {
 
   /** A word is simply a `String`. */
@@ -163,5 +165,27 @@ object Anagrams {
     *
     *  Note: There is only one anagram of an empty sentence.
     */
-  def sentenceAnagrams(sentence: Sentence): List[Sentence] = ???
+  def sentenceAnagrams(sentence: Sentence): List[Sentence] = {
+    def iter(anagramWords: Sentence, remainingOcurrences: Occurrences): List[Sentence] = {
+      remainingOcurrences match {
+        case List() => List(anagramWords)
+        case _ => {
+          val combs = combinations(remainingOcurrences)
+          combs.foldRight(List[Sentence]())((x, y) => {
+            val xwords: Sentence = dictionaryByOccurrences.getOrElse(x, List())
+
+            val xres = xwords.foldRight(List[Sentence]())((x2, y2) => {
+              val x2result = iter(anagramWords :+ x2, subtract(remainingOcurrences, x))
+              x2result ::: y2
+            })
+
+            xres ::: y
+          })
+        }
+      }
+    }
+
+    val ocurrences = sentenceOccurrences(sentence)
+    iter(List(), ocurrences)
+  }
 }
