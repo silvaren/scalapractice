@@ -1,6 +1,6 @@
 package progfun2.week2.streams
 
-import common._
+import progfun2.week2.common._
 
 /**
  * This trait represents the layout and building blocks of the game
