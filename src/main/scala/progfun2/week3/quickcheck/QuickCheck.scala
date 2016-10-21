@@ -1,6 +1,6 @@
 package progfun2.week3.quickcheck
 
-import common._
+import progfun2.week3.common._
 
 import org.scalacheck._
 import Arbitrary._
