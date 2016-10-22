@@ -2,6 +2,8 @@ package progfun2.week2.streams
 
 import progfun2.week2.common._
 
+import scala.annotation.tailrec
+
 /**
  * This component implements the solver for the Bloxorz game
  */
@@ -90,5 +92,8 @@ trait Solver extends GameDef {
    * the first move that the player should perform from the starting
    * position.
    */
-  lazy val solution: List[Move] = ???
+  lazy val solution: List[Move] = pathsToGoal match {
+    case (block, moves) #:: tail => moves.reverse
+    case Stream() => List()
+  }
 }
