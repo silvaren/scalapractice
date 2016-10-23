@@ -68,11 +68,10 @@ trait Solver extends GameDef {
     */
   def from(initial: Stream[(Block, List[Move])],
            explored: Set[Block]): Stream[(Block, List[Move])] = {
-    val newPaths = initial ++ initial.flatMap { case (block, moves) =>
+    val newPaths = initial.flatMap { case (block, moves) =>
       newNeighborsOnly(neighborsWithHistory(block, moves), explored)}
     val newExplored = newPaths.map{case (block, _) => block}.toSet ++ explored
-    if (newExplored == explored) newPaths
-    else from(newPaths, newExplored)
+    initial ++ newPaths #::: from(initial ++ newPaths, newExplored)
   }
 
   /**
