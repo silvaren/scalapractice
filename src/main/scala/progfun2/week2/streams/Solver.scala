@@ -43,12 +43,6 @@ trait Solver extends GameDef {
                        explored: Set[Block]): Stream[(Block, List[Move])] =
   neighbors.filter{case(block, moves) => !explored.contains(block)}
 
-  def newPathsOrOldOne(block: Block, moves: List[Move], explored: Set[Block]): Stream[(Block, List[Move])] = {
-    val newNeighbors = newNeighborsOnly(neighborsWithHistory(block, moves), explored)
-    if (newNeighbors.isEmpty) List((block, moves)).toStream
-    else newNeighbors
-  }
-
   /**
     * The function `from` returns the stream of all possible paths
     * that can be followed, starting at the `head` of the `initial`
@@ -74,7 +68,8 @@ trait Solver extends GameDef {
     */
   def from(initial: Stream[(Block, List[Move])],
            explored: Set[Block]): Stream[(Block, List[Move])] = {
-    val newPaths = initial ++ initial.flatMap { case (block, moves) => newPathsOrOldOne(block, moves, explored)}
+    val newPaths = initial ++ initial.flatMap { case (block, moves) =>
+      newNeighborsOnly(neighborsWithHistory(block, moves), explored)}
     val newExplored = newPaths.map{case (block, _) => block}.toSet ++ explored
     if (newExplored == explored) newPaths
     else from(newPaths, newExplored)
