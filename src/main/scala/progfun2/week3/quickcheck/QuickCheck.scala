@@ -25,4 +25,10 @@ abstract class QuickCheckHeap extends Properties("Heap") with IntHeap {
     val h = insert(a, empty)
     findMin(h) == a
   }
+
+  property("minoftwo") = forAll { (a: Int, b: Int) =>
+    val h = insert(a, empty)
+    val h2 = insert(b, h)
+    findMin(h2) == scala.math.min(a,b)
+  }
 }
