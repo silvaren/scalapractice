@@ -1,11 +1,12 @@
 package progfun2.week3.quickcheck
 
 import progfun2.week3.common._
-
 import org.scalacheck._
 import Arbitrary._
 import Gen._
 import Prop._
+
+import scala.annotation.tailrec
 
 abstract class QuickCheckHeap extends Properties("Heap") with IntHeap {
 
@@ -30,5 +31,23 @@ abstract class QuickCheckHeap extends Properties("Heap") with IntHeap {
     val h = insert(a, empty)
     val h2 = insert(b, h)
     findMin(h2) == scala.math.min(a,b)
+  }
+
+  property("deleteMinElement") = forAll { a: Int =>
+    val h = insert(a, empty)
+    deleteMin(h) == empty
+  }
+
+  property("sortedMins") = forAll { h: H =>
+    @tailrec
+    def mins(h: H, minsList: List[Int]): List[Int] = {
+      if (isEmpty(h)) minsList
+      else {
+        val theMin = findMin(h)
+        mins(deleteMin(h), minsList :+ theMin)
+      }
+    }
+    val theMins = mins(h, List())
+    theMins == theMins.sorted
   }
 }

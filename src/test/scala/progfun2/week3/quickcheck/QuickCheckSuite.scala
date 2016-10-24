@@ -7,25 +7,32 @@ import org.scalatest.prop.Checkers
 import org.scalacheck.Arbitrary._
 import org.scalacheck.{Prop, Properties}
 import org.scalacheck.Prop._
+import org.scalacheck.Test.{Result, _}
 import org.scalatest.exceptions.TestFailedException
+import progfun2.week3.quickcheck.test.BinomialHeap
 
 object QuickCheckBinomialHeap extends QuickCheckHeap with BinomialHeap
 
 @RunWith(classOf[JUnitRunner])
 class QuickCheckSuite extends FunSuite with Checkers {
   def checkBogus(p: Properties) {
-    var ok = false
-    try {
-      p.check()
-    } catch {
-      case e: TestFailedException =>
-        ok = true
-    }
+    val results: Seq[(String, Result)] = resultsFromPropertiesChecks(p)
+    val ok = !results.forall{case (s: String, result: Result) => result.status == Passed}
     assert(ok, "A bogus heap should NOT satisfy all properties. Try to find the bug!")
   }
 
+  def resultsFromPropertiesChecks(p: Properties): Seq[(String, org.scalacheck.Test.Result)] = {
+    val results: Seq[(String, Result)] = checkProperties(Parameters.default, p)
+    results
+  }
+
+  def checkAllProperties(p: Properties)= {
+    val results: Seq[(String, Result)] = resultsFromPropertiesChecks(p)
+    assert(results.forall{case (s: String, result: Result) => result.status == Passed})
+  }
+
   test("Binomial heap satisfies properties.") {
-    (new QuickCheckHeap with progfun2.week3.quickcheck.test.BinomialHeap).check()
+    checkAllProperties(new QuickCheckHeap with progfun2.week3.quickcheck.test.BinomialHeap)
   }
 
   test("Bogus (1) binomial heap does not satisfy properties.") {
