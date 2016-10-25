@@ -50,4 +50,10 @@ abstract class QuickCheckHeap extends Properties("Heap") with IntHeap {
     val theMins = mins(h, List())
     theMins == theMins.sorted
   }
+
+  property("meldMin") = forAll { (h1: H, h2: H) =>
+    findMin(meld(h1, h2)) == findMin(h1) || findMin(meld(h1, h2)) == findMin(h2)
+  }
+
+
 }
