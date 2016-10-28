@@ -1,4 +1,4 @@
-package progfun2.week4.calculator
+package calculator
 
 object Polynomial {
   def computeDelta(a: Signal[Double], b: Signal[Double],

@@ -1,4 +1,4 @@
-package progfun2.week4.calculator
+package calculator
 
 object TweetLength {
   final val MaxTweetLength = 140

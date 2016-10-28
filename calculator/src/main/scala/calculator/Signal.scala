@@ -1,4 +1,4 @@
-package progfun2.week4.calculator
+package calculator
 
 import scala.util.DynamicVariable
 

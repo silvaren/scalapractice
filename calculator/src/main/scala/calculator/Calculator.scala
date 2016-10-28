@@ -1,4 +1,4 @@
-package progfun2.week4.calculator
+package calculator
 
 sealed abstract class Expr
 final case class Literal(v: Double) extends Expr
