@@ -71,4 +71,9 @@ class CalculatorSuite extends FunSuite with ShouldMatchers {
     assert(solutions() == Set())
   }
 
+  test("eval") {
+    val evaled = Calculator.eval(Plus(Literal(1), Ref("a")), Map("a" -> Var(Literal(2))))
+    assert(evaled == 3)
+  }
+
 }
